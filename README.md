@@ -8,3 +8,4 @@
 - /bin/php8.2 /usr/share/adminizor/artisan bash:install-mysql --port=3306 --bind-address=0.0.0.0 --mysqlx-port=33060 --mysqlx-bind-address=0.0.0.0 --innodb-buffer-pool-size=4G
 - /bin/php8.2 /usr/share/adminizor/artisan bash:mysql-create-user --user=admin --level=administrator --password='123456' --host='%'
 - /bin/php8.2 /usr/share/adminizor/artisan bash:install-phpmyadmin
+- /bin/php8.2 /usr/share/adminizor/artisan bash:create-nginx-vhost --ip=0.0.0.0 --port=80 --domain=pma.meudominio.local --path=/usr/share/phpmyadmin --php=8.2
