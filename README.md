@@ -1,4 +1,7 @@
-## Instalations
+## Instalation
 
-- bash <(curl -s https://raw.githubusercontent.com/adminizor/bash/refs/heads/master/Utils/Install.bash)
-- bash <(curl -s https://raw.githubusercontent.com/adminizor/bash/refs/heads/master/PHP/8.2/Install.bash)
+- Run command to starting setup
+
+```bash
+bash <(curl -s https://adminizor.github.io/installation/setup.bash)
+```
