@@ -11,7 +11,6 @@ readonly PHP_VERSION="8.2"
 readonly PHP_PPA="ppa:ondrej/php"
 readonly IONCUBE_URL="https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz"
 
-# Caminhos que serão usados com frequência
 readonly PHP_MODS_AVAILABLE="/etc/php/${PHP_VERSION}/mods-available"
 readonly PAM_INI_FILE="${PHP_MODS_AVAILABLE}/pam.ini"
 readonly PHP_FPM_SERVICE="php${PHP_VERSION}-fpm"
@@ -20,7 +19,6 @@ readonly FPM_CONF_DIR="/etc/php/${PHP_VERSION}/fpm/conf.d"
 
 # === Funções ===
 
-# Função para exibir mensagens de erro e sair
 error_exit() {
   echo "ERRO: ${1}" >&2
   exit 1
@@ -46,12 +44,10 @@ check_already_installed() {
 install_ioncube() {
   echo ">>> 6. Instalando e Configurando ionCube Loader..."
 
-  # Determina o diretório de extensões do PHP dinamicamente
   local php_ext_dir
   php_ext_dir=$(php-config --extension-dir) || error_exit "Não foi possível determinar o diretório de extensões do PHP. 'php-dev' está instalado?"
   echo "INFO: Diretório de extensões do PHP: ${php_ext_dir}"
 
-  # Trabalha no diretório /tmp para não sujar o sistema
   cd /tmp || error_exit "Não foi possível acessar o diretório /tmp."
 
   echo "INFO: Baixando ionCube Loader..."
@@ -68,7 +64,6 @@ install_ioncube() {
   echo "INFO: Copiando loader para ${php_ext_dir}..."
   cp "${ioncube_loader_file}" "${php_ext_dir}/" || error_exit "Falha ao copiar o loader do ionCube."
 
-  # Conteúdo do arquivo .ini. Usamos zend_extension que é o recomendado para o ionCube.
   local ini_content="zend_extension = ${php_ext_dir}/$(basename "${ioncube_loader_file}")"
 
   echo "INFO: Habilitando ionCube para PHP CLI..."
@@ -83,8 +78,6 @@ install_ioncube() {
   echo ">>> ionCube Loader instalado com sucesso."
 }
 
-
-# Função principal de instalação
 main() {
   check_root
   check_already_installed
@@ -121,7 +114,6 @@ main() {
   fi
   phpenmod pam || error_exit "Falha ao executar phpenmod para a extensão PAM."
 
-  # --- NOVO PASSO: INSTALAR IONCUBE ---
   install_ioncube
 
   echo ">>> 7. Limpando cache do APT..."
@@ -149,7 +141,6 @@ main() {
   echo "Lembre-se de configurar os pools do PHP-FPM em /etc/php/${PHP_VERSION}/fpm/pool.d/ conforme necessário."
 }
 
-# === Execução ===
 main "$@"
 
 exit 0
